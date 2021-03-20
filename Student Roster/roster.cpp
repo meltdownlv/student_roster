@@ -5,7 +5,10 @@
 using std::cout;
 using std::endl;
 
-// Default roster constructor establishes 5 nullptr for kNumStudents
+/**
+ * Constructor for the Roster class will initialize an array for pointers
+ * to Student objects.
+ */
 Roster::Roster()
 {
     for (int i = 0; i < kNumStudents; ++i)
@@ -14,30 +17,38 @@ Roster::Roster()
     }
 }
 
+/**
+ * Parses student object data from comma delimited string data in structured format.
+ * Student object is created and added to the roster.
+ * 
+ * The fields are ordered as follows: student_id, first_name, last_name, email_address,
+ *                                    age, days_1, days_2, days_3, degree_type
+ * 
+ * @param student_info String of comma delimited data.
+ */
+
 int Roster::ParseAddStudent(std::string student_info)
-{ /* Parse each student's info and dynamically allocate new object
-   * idx_end will serve as index for end of field
-   * idx_begin will serve as index for beginning char of field
-   */
+{ 
+    // Parse ID
     size_t idx_end = student_info.find(",");
     string student_id = student_info.substr(0, idx_end);
-    // Parse first name and assign to temp variable
+    // Parse first name
     size_t idx_begin = idx_end + 1;
     idx_end = student_info.find(",", idx_begin);
     string first_name = student_info.substr(idx_begin, idx_end - idx_begin);
-    // Parse last name and assign to temp variable
+    // Parse last name
     idx_begin = idx_end + 1;
     idx_end = student_info.find(",", idx_begin);
     string last_name = student_info.substr(idx_begin, idx_end - idx_begin);
-    // Parse last name and assign to temp variable
+    // Parse email address
     idx_begin = idx_end + 1;
     idx_end = student_info.find(",", idx_begin);
     string email_address = student_info.substr(idx_begin, idx_end - idx_begin);
-    // Parse age and cast to int value
+    // Parse age
     idx_begin = idx_end + 1;
     idx_end = student_info.find(",", idx_begin);
     int age = std::stoi(student_info.substr(idx_begin, idx_end - idx_begin));
-    // Declare temp array outside loop and iterate to add days
+    // Parse days for class completion
     int days_to_complete[Student::kNumCourses];
     int DEGREE_ERROR{ 99 };
     for (size_t i = 0; i < Student::kNumCourses; ++i)
@@ -46,7 +57,7 @@ int Roster::ParseAddStudent(std::string student_info)
         idx_end = student_info.find(",", idx_begin);
         days_to_complete[i] = std::stoi(student_info.substr(idx_begin, idx_end - idx_begin));
     }
-    // Move index and check for DegreeType
+    // Degree Type
     idx_begin = idx_end + 1;
     DegreeType degree_type;
     try
@@ -66,7 +77,6 @@ int Roster::ParseAddStudent(std::string student_info)
         return e;
     }
 
-    // Dynamic allocation of student to our roster class
     class_roster_array[++current_student_idx] = new Student(student_id, first_name, last_name,
         email_address, age, days_to_complete, degree_type);
     return 0;
@@ -90,8 +100,6 @@ void Roster::PrintAll()
 
 void Roster::Remove(std::string student_id)
 {
-    // if student not in roster -> Print The student with ID XX was not found
-    // else we delete the student and set pointer to nullptr
     for (int i = 0; i < kNumStudents; ++i)
         if (class_roster_array[i])
         {
@@ -130,8 +138,16 @@ void Roster::PrintAvgDays(std::string student_id)
     return;
 }
 
+/**
+ * Prints list of students on roster with invalid emails.
+ * 
+ * Emails are considered valid if they include '@' and '.'
+ * but do not contain any spaces.
+ *  
+ */
+
 void Roster::PrintInvalidEmails()
-{// Valid email must include '@' and '.' but not ' '
+{
     size_t found_at{ 0 }, found_dot{ 0 }, found_sp{ 0 };
 
     for (int i = 0; i < kNumStudents; ++i)
@@ -143,23 +159,19 @@ void Roster::PrintInvalidEmails()
         {
             cout << "\nDisplaying invalid emails: " << endl << endl;
         }
-        // If we have a valid email address skip the last 3 checks
         if ((found_at != string::npos) && (found_dot != string::npos) &&
             (found_sp == string::npos))
         {
             continue;
         }
-        // Check if we didn't find '@'
         else if (found_at == string::npos)
         {
             cout << class_roster_array[i]->GetEmail() << " - missing an @ symbol." << endl;
         }
-        // Check if we didn't find '.'
         else if (found_dot == string::npos)
         {
             cout << class_roster_array[i]->GetEmail() << " - missing a period." << endl;
         }
-        // Check if we found a space
         else if (found_sp != string::npos)
         {
             cout << class_roster_array[i]->GetEmail() << " - no spaces allowed." << endl;
@@ -168,6 +180,14 @@ void Roster::PrintInvalidEmails()
     }
     return;
 }
+
+
+/** 
+ * Prints list of students in the specified program.
+ * 
+ * @param degree_type that we want to query and display
+ * 
+ */
 
 void Roster::PrintByDegree(DegreeType degree_type)
 {
@@ -186,6 +206,7 @@ void Roster::PrintByDegree(DegreeType degree_type)
 
     return;
 }
+
 
 Roster::~Roster()
 {

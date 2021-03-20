@@ -19,7 +19,7 @@ int main()
 
 	MyProjectInfo();
 
-	// Initialize roster and iterate through strings to create students
+
 	Roster class_roster;
 	for (i = 0; i < num_students; ++i)
 	{
@@ -37,7 +37,7 @@ int main()
 		current_id = "A" + std::to_string(i + 1);
 		class_roster.PrintAvgDays(current_id);
 	}
-	// FIXME - need to insert PrintByDegree here
+
 	class_roster.PrintByDegree(DegreeType::SOFTWARE);
 	class_roster.Remove("A3");
 	class_roster.PrintAll();

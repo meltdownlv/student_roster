@@ -3,7 +3,6 @@
 using std::cout;
 using std::endl;
 
-// Default constructor for the Student class
 Student::Student()
 {
     student_id = "";
@@ -18,7 +17,6 @@ Student::Student()
     degree = DegreeType::BASKETWEAVING;
 }
 
-// Parameterized constructor for the Student class
 Student::Student(string student_id, string first_name, string last_name,
     string email_address, int age, int* days_to_complete, DegreeType degree)
 {
@@ -34,7 +32,7 @@ Student::Student(string student_id, string first_name, string last_name,
     this->degree = degree;
 }
 
-// Accessor functions
+// Getters
 string Student::GetID()
 {
     return student_id;
@@ -70,7 +68,7 @@ DegreeType Student::GetDegreeProgram()
     return degree;
 }
 
-// Mutator functions
+// Setters
 void Student::SetID(string new_id)
 {
     student_id = new_id;
@@ -137,7 +135,6 @@ void Student::SetDegreeType(int new_degree_type)
     return;
 }
 
-// Print student attributes to line
 void Student::PrintAttributes()
 {
     int* days_list = nullptr;
@@ -145,20 +142,19 @@ void Student::PrintAttributes()
     cout << "ID: " << GetID() << "\tFirst: " << GetFirstName() << "\tLast: "
         << GetLastName() << "\tAge: " << GetAge();
     cout << "\t\tDays in Course: { ";
-    // Get pointer to days to complete and add values to cout
     days_list = GetDaysToComplete();
+
     for (int i = 0; i < kNumCourses; ++i)
     {
         if (i == kNumCourses - 1) cout << days_list[i] << " }";
         else cout << days_list[i] << ", ";
     }
-    // Get enum for degree and print appropriate parallel string entry
     cout << "\tDegree: " << DegreeNames[(int)GetDegreeProgram()] << endl;
     return;
 }
 
 int Student::GetAvgDays()
-{// Returns avg days in course for given student
+{
     int avg{ 0 }, total_days{ 0 };
 
     for (int i = 0; i < kNumCourses; ++i)
@@ -169,7 +165,4 @@ int Student::GetAvgDays()
     return avg;
 }
 
-Student::~Student()
-{
-    // Default destructor for the Student - no dynamic variables to delete
-}
+Student::~Student(){}

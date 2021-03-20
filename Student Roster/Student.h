@@ -16,14 +16,12 @@ private:
     int days_to_complete[kNumCourses];
     DegreeType degree;
 public:
-    // Default constructor
     Student();
     // Parameterized constructor
     Student(string student_id, string first_name, string last_name,
         string email_address, int age, int* days_to_complete, DegreeType degree);
-    // Default destructor
     ~Student();
-    // Declarations for all accessors
+    // Getters
     string GetID();
     string GetFirstName();
     string GetLastName();
@@ -33,7 +31,7 @@ public:
     DegreeType GetDegreeProgram();
     int GetAvgDays();
 
-    // Declarations for all mutators
+    // Setters
     void SetID(string new_id);
     void SetFirstName(string new_first_name);
     void SetLastName(string new_last_name);
@@ -42,7 +40,6 @@ public:
     void SetDaystoComplete(int* new_course_days);
     void SetDegreeType(DegreeType new_degree_type);
     void SetDegreeType(int new_degree_type);
-    
-    void PrintAttributes();
 
+    void PrintAttributes();
 };
